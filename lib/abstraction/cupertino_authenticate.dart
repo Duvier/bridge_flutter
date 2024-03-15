@@ -1,4 +1,4 @@
-import 'package:bridge_flutter/abtraction/abstract_authenticate.dart';
+import 'package:bridge_flutter/abstraction/abstract_authenticate.dart';
 import 'package:flutter/cupertino.dart';
 
 class CupertinoAuthenticate extends Authenticate {

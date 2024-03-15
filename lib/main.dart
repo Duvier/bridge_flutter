@@ -1,7 +1,10 @@
-import 'package:bridge_flutter/abtraction/cupertino_authenticate.dart';
+import 'dart:io';
+
+import 'package:bridge_flutter/abstraction/cupertino_authenticate.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'abtraction/material_authenticate.dart';
+import 'abstraction/material_authenticate.dart';
 import 'implementation/facebook_provider.dart';
 import 'implementation/google_provider.dart';
 
@@ -16,25 +19,46 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Hola Mundo!'),
-              const SizedBox(height: 40),
-              CupertinoAuthenticate(title: 'Iniciar sesión con Facebook', provider: facebookProvider),
-              const SizedBox(height: 10),
-              CupertinoAuthenticate(title: 'Iniciar sesión con Google', provider: googleProvider),
-              const Divider(height: 80),
-              MaterialAuthenticate(title: 'Iniciar sesión con Facebook', provider: facebookProvider),
-              const SizedBox(height: 10),
-              MaterialAuthenticate(title: 'Iniciar sesión con Google', provider: googleProvider),
-            ],
-          ),
-        ),
-      ),
-    );
+    return Platform.isAndroid
+        ? MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MaterialAuthenticate(
+                      title: 'Iniciar sesión con Facebook',
+                      provider: facebookProvider,
+                    ),
+                    const SizedBox(height: 10),
+                    MaterialAuthenticate(
+                      title: 'Iniciar sesión con Google',
+                      provider: googleProvider,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : CupertinoApp(
+            home: CupertinoPageScaffold(
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 40),
+                    CupertinoAuthenticate(
+                      title: 'Iniciar sesión con Facebook',
+                      provider: facebookProvider,
+                    ),
+                    const SizedBox(height: 10),
+                    CupertinoAuthenticate(
+                      title: 'Iniciar sesión con Google',
+                      provider: googleProvider,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 }
